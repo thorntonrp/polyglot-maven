@@ -15,7 +15,7 @@
 
   <groupId>io.takari.polyglot</groupId>
   <artifactId>polyglot</artifactId>
-  <version>0.4.6-SNAPSHOT</version>
+  <version>0.4.6.ics</version>
   <name>Polyglot :: Aggregator</name>
   <packaging>pom</packaging>
 
@@ -42,6 +42,7 @@
 
   <modules>
     <module>polyglot-common</module>
+    <!--
     <module>polyglot-atom</module>
     <module>polyglot-ruby</module>
     <module>polyglot-scala</module>
@@ -50,6 +51,7 @@
     <module>polyglot-clojure</module>
     <module>polyglot-xml</module>
     <module>polyglot-java</module>
+    -->
     <module>polyglot-kotlin</module>
     <module>polyglot-maven-plugin</module>
     <module>polyglot-translate-plugin</module>
