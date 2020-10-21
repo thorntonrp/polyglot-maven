@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+if [[ "$1" == "" ]]; then
+    echo "set-version <version>"
+    exit 1
+fi
+
+version=$1
+replacement="s/<groupId>.*<\/groupId><!--VERSION-->/<groupId>$version<\/groupId><!--VERSION-->/g"
+sed -i "$replacement" pom.xml
+sed "$replacement" polyglot-common/pom.xml
+sed "$replacement" polyglot-kotlin/pom.xml
+sed "$replacement" polyglot-maven-plugin/pom.xml
+sed "$replacement" polyglot-translate-plugin/pom.xml

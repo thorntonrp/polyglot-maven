@@ -16,7 +16,7 @@
 
     <groupId>io.takari.polyglot</groupId>
     <artifactId>polyglot</artifactId>
-    <version>0.4.6.ics</version>
+    <version>0.4.6.ics</version><!--VERSION-->
     <name>Polyglot :: Aggregator</name>
     <packaging>pom</packaging>
 
