@@ -13,7 +13,6 @@ resources:
       type: git
       name: ALM/devops_pipelines
 
-
 stages:
 - stage: Build
   jobs:
