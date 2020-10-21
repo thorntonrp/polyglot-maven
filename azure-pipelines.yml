@@ -16,7 +16,7 @@ resources:
 stages:
 - stage: Build
   jobs:
-  - template: templates/azure-java-mvn.yml@almtemplates
+  - template: templates/java-mvn-build.yml@almtemplates
     parameters:
       AppName: 'polyglot-maven'
       Portfolio: 'ESM'
@@ -24,5 +24,5 @@ stages:
       #AppVersion: '1.0'
       #RunMavenSonarScan: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/master') }} # This expression will return true if the branch is master. Set to 'false' if a scan is unwanted on the master branch.
       MavenGoal: 'clean deploy -U -B'
-      #JavaVersion: '11' # Default maven version is 11. Pass in '8' for JDK 8
+      JavaVersion: '8' # Default maven version is 11. Pass in '8' for JDK 8
       #SonarServiceConnection: 'ICS SonarQube Service Connection'
