@@ -23,6 +23,6 @@ stages:
       # Optional Parameters showing the current default value
       #AppVersion: '1.0'
       #RunMavenSonarScan: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/master') }} # This expression will return true if the branch is master. Set to 'false' if a scan is unwanted on the master branch.
-      MavenGoal: 'clean deploy -U -B'
+      MavenGoal: '-U -B clean deploy'
       JavaVersion: '8' # Default maven version is 11. Pass in '8' for JDK 8
       #SonarServiceConnection: 'ICS SonarQube Service Connection'
