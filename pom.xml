@@ -16,7 +16,7 @@
 
     <groupId>io.takari.polyglot</groupId>
     <artifactId>polyglot</artifactId>
-    <version>0.4.6.ICS.5</version><!--PROJECT_VERSION-->
+    <version>0.4.6.ICS.6</version><!--PROJECT_VERSION-->
     <name>Polyglot :: Aggregator</name>
     <packaging>pom</packaging>
 
@@ -242,46 +242,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <profiles>
-        <!--·········································································································-->
-        <!-- CODE COVERAGE PROFILE                                                                                   -->
-        <!--     Enables the collection of code coverage statistics while performing unit and integration testing.   -->
-        <!--·········································································································-->
-        <profile>
-            <id>code-coverage</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco.version}</version>
-                        <executions>
-                            <execution>
-                                <id>prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>prepare-agent-integration</id>
-                                <goals>
-                                    <goal>prepare-agent-integration</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>reports</id>
-                                <goals>
-                                    <goal>report</goal>
-                                    <goal>report-integration</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <distributionManagement>
         <repository>
