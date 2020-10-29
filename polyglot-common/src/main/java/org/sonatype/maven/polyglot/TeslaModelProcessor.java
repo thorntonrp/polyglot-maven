@@ -47,7 +47,7 @@ public class TeslaModelProcessor implements ModelProcessor {
   private static final String WARNING = "?>" + NEW_LINE + "<!--" +
       NEW_LINE + "" +
       NEW_LINE + "" +
-      NEW_LINE + "DO NOT MODIFIY - GENERATED CODE" +
+      NEW_LINE + "DO NOT MODIFY - GENERATED CODE" +
       NEW_LINE + "" +
       NEW_LINE + "" +
       NEW_LINE + "-->";
@@ -106,12 +106,11 @@ public class TeslaModelProcessor implements ModelProcessor {
   })
   public Model read(final Reader input, final Map<String, ?> options) throws IOException, ModelParseException {
     assert manager != null;
-    Optional<File> optionalPom = getPolyglotPomFile(options);
-    if (optionalPom.isPresent()) {
-      File polyglotPom = optionalPom.get();
-      log.debug(polyglotPom.toString());
-
-      File realPom = new File(polyglotPom.getPath().replaceFirst(Pattern.quote(POM_FILE_PREFIX), ""));
+    Optional<File> optionalPomXml = getPomXmlFile(options);
+    if (optionalPomXml.isPresent()) {
+      File pom = optionalPomXml.get();
+      log.debug(pom.toString());
+      File realPom = new File(pom.getPath().replaceFirst(Pattern.quote(POM_FILE_PREFIX), ""));
 
       ((Map) options).put(ModelProcessor.SOURCE, new FileModelSource(realPom));
 
@@ -122,7 +121,7 @@ public class TeslaModelProcessor implements ModelProcessor {
       StringWriter xml = new StringWriter();
       xmlWriter.write(xml, model);
 
-      FileUtils.fileWrite(polyglotPom, xml.toString());
+      FileUtils.fileWrite(pom, xml.toString());
 
       // dump pom if filename is given via the pom properties
       String dump = model.getProperties().getProperty("polyglot.dump.pom");
@@ -131,7 +130,7 @@ public class TeslaModelProcessor implements ModelProcessor {
         dump = System.getProperty("polyglot.dump.pom");
       }
       if (dump != null) {
-        File dumpPom = new File(polyglotPom.getParentFile(), dump);
+        File dumpPom = new File(pom.getParentFile(), dump);
         if (!dumpPom.exists() || !FileUtils.fileRead(dumpPom).equals(xml.toString().replace("?>", WARNING))) {
           dumpPom.setWritable(true);
           FileUtils.fileWrite(dumpPom, xml.toString().replace("?>", WARNING));
@@ -141,7 +140,7 @@ public class TeslaModelProcessor implements ModelProcessor {
         }
       }
 
-      model.setPomFile(polyglotPom);
+      model.setPomFile(pom);
       return model;
     } else {
       ModelReader reader = manager.getReaderFor(options);
@@ -149,7 +148,7 @@ public class TeslaModelProcessor implements ModelProcessor {
     }
   }
 
-  private Optional<File> getPolyglotPomFile(Map<String, ?> options) {
+  private Optional<File> getPomXmlFile(Map<String, ?> options) {
     ModelSource source = (ModelSource) options.get(ModelProcessor.SOURCE);
     if (source != null) {
       File sourceFile = new File(source.getLocation());
