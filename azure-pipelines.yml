@@ -3,7 +3,7 @@
 # Commit the changes and trigger a new build
 
 trigger:
-- master
+  - master
 
 # Repo: devops_pipelines/templates
 # File: azure-pipelines.yml
@@ -14,15 +14,16 @@ resources:
       name: ALM/devops_pipelines
 
 stages:
-- stage: Build
-  jobs:
-  - template: templates/java-mvn-build.yml@almtemplates
-    parameters:
-      AppName: 'polyglot-maven'
-      Portfolio: 'ESM'
-      # Optional Parameters showing the current default value
-      #AppVersion: '1.0'
-      #RunMavenSonarScan: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/master') }} # This expression will return true if the branch is master. Set to 'false' if a scan is unwanted on the master branch.
-      MavenGoal: '-U -B -e clean deploy'
-      JavaVersion: '8' # Default maven version is 11. Pass in '8' for JDK 8
-      #SonarServiceConnection: 'ICS SonarQube Service Connection'
+  - stage: Build
+    jobs:
+      - template: templates/java-mvn-build.yml@almtemplates
+        parameters:
+          AppName: polyglot-maven
+          Portfolio: ESM
+          JavaVersion: 8
+          MavenPomFile: pom.xml
+          MavenPomPath: .
+          MavenGoal: clean deploy -U -B -e
+          RunMavenSonarScan: false
+          DownloadSecureFile: false
+          RunArtifactoryUpload: false
