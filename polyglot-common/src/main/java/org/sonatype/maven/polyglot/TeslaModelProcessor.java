@@ -151,15 +151,19 @@ public class TeslaModelProcessor implements ModelProcessor {
   private Optional<File> getPomXmlFile(Map<String, ?> options) {
     ModelSource source = (ModelSource) options.get(ModelProcessor.SOURCE);
     if (source != null) {
-      File sourceFile = new File(source.getLocation());
-      String filename = sourceFile.getName();
-      if (filename.startsWith(POM_FILE_PREFIX)) {
-        return Optional.of(sourceFile);
-      } else if (!filename.equals("pom.xml") && !filename.endsWith(".pom")) {
-        File pom = locatePom(sourceFile.getParentFile());
-        if (pom.getName().startsWith(POM_FILE_PREFIX)) {
-          return Optional.of(pom);
-        }
+      return getPomXmlFile(new File(source.getLocation()));
+    }
+    return Optional.empty();
+  }
+
+  Optional<File> getPomXmlFile(File sourceFile) {
+    String filename = sourceFile.getName();
+    if (filename.startsWith(POM_FILE_PREFIX)) {
+      return Optional.of(sourceFile);
+    } else if (!filename.equals("pom.xml") && !filename.endsWith(".pom")) {
+      File pom = locatePom(sourceFile.getParentFile());
+      if (pom.getName().startsWith(POM_FILE_PREFIX)) {
+        return Optional.of(pom);
       }
     }
     return Optional.empty();
