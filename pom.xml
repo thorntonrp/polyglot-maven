@@ -11,12 +11,12 @@
     <parent>
         <groupId>io.takari</groupId>
         <artifactId>takari</artifactId>
-        <version>28</version>
+        <version>40</version>
     </parent>
 
     <groupId>io.takari.polyglot</groupId>
     <artifactId>polyglot</artifactId>
-    <version>0.4.6.ICS.4</version><!--PROJECT_VERSION-->
+    <version>0.4.6.ICS.5</version><!--PROJECT_VERSION-->
     <name>Polyglot :: Aggregator</name>
     <packaging>pom</packaging>
 
@@ -29,7 +29,7 @@
     </licenses>
 
     <properties>
-        <mavenVersion>3.6.3</mavenVersion>
+        <mavenVersion>3.6.1</mavenVersion>
         <sisuInjectVersion>0.0.0.M5</sisuInjectVersion>
         <takari.transitiveDependencyReference>ignore</takari.transitiveDependencyReference>
     </properties>
