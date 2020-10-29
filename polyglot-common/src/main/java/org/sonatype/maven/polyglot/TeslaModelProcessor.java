@@ -16,6 +16,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.building.FileModelSource;
@@ -49,7 +51,8 @@ public class TeslaModelProcessor implements ModelProcessor {
       NEW_LINE + "" +
       NEW_LINE + "" +
       NEW_LINE + "-->";
-        
+  private static final String POM_FILE_PREFIX = ".polyglot.";
+
   @Requirement
   private PolyglotModelManager manager;
   @Requirement
@@ -67,7 +70,7 @@ public class TeslaModelProcessor implements ModelProcessor {
       // behave like proper maven in case there is no pom from manager
       return pomFile;
     }
-    File polyglotPomFile = new File(pomFile.getParentFile(), ".polyglot." + pomFile.getName());
+    File polyglotPomFile = new File(pomFile.getParentFile(), POM_FILE_PREFIX + pomFile.getName());
     try {
       if (polyglotPomFile.createNewFile()) {
       polyglotPomFile.deleteOnExit();
@@ -103,12 +106,12 @@ public class TeslaModelProcessor implements ModelProcessor {
   })
   public Model read(final Reader input, final Map<String, ?> options) throws IOException, ModelParseException {
     assert manager != null;
-    ModelSource source = (ModelSource) options.get(ModelProcessor.SOURCE);
-    if (("" + source).contains(".polyglot.")) {
-      log.debug(source.getLocation());
+    Optional<File> optionalPom = getPolyglotPomFile(options);
+    if (optionalPom.isPresent()) {
+      File polyglotPom = optionalPom.get();
+      log.debug(polyglotPom.toString());
 
-      File pom = new File(source.getLocation());
-      File realPom = new File(pom.getPath().replaceFirst("[.]polyglot[.]", ""));
+      File realPom = new File(polyglotPom.getPath().replaceFirst(Pattern.quote(POM_FILE_PREFIX), ""));
 
       ((Map) options).put(ModelProcessor.SOURCE, new FileModelSource(realPom));
 
@@ -119,7 +122,7 @@ public class TeslaModelProcessor implements ModelProcessor {
       StringWriter xml = new StringWriter();
       xmlWriter.write(xml, model);
 
-      FileUtils.fileWrite(pom, xml.toString());
+      FileUtils.fileWrite(polyglotPom, xml.toString());
 
       // dump pom if filename is given via the pom properties
       String dump = model.getProperties().getProperty("polyglot.dump.pom");
@@ -128,7 +131,7 @@ public class TeslaModelProcessor implements ModelProcessor {
         dump = System.getProperty("polyglot.dump.pom");
       }
       if (dump != null) {
-        File dumpPom = new File(pom.getParentFile(), dump);
+        File dumpPom = new File(polyglotPom.getParentFile(), dump);
         if (!dumpPom.exists() || !FileUtils.fileRead(dumpPom).equals(xml.toString().replace("?>", WARNING))) {
           dumpPom.setWritable(true);
           FileUtils.fileWrite(dumpPom, xml.toString().replace("?>", WARNING));
@@ -138,11 +141,28 @@ public class TeslaModelProcessor implements ModelProcessor {
         }
       }
 
-      model.setPomFile(pom);
+      model.setPomFile(polyglotPom);
       return model;
     } else {
       ModelReader reader = manager.getReaderFor(options);
       return reader.read(input, options);
     }
+  }
+
+  private Optional<File> getPolyglotPomFile(Map<String, ?> options) {
+    ModelSource source = (ModelSource) options.get(ModelProcessor.SOURCE);
+    if (source != null) {
+      File sourceFile = new File(source.getLocation());
+      String filename = sourceFile.getName();
+      if (filename.startsWith(POM_FILE_PREFIX)) {
+        return Optional.of(sourceFile);
+      } else if (!filename.equals("pom.xml") && !filename.endsWith(".pom")) {
+        File pom = locatePom(sourceFile.getParentFile());
+        if (pom.getName().startsWith(POM_FILE_PREFIX)) {
+          return Optional.of(pom);
+        }
+      }
+    }
+    return Optional.empty();
   }
 }
