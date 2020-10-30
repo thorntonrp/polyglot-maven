@@ -10,7 +10,7 @@
   <parent>
     <groupId>io.takari.polyglot</groupId>
     <artifactId>polyglot</artifactId>
-    <version>0.4.6.ICS.7</version><!--PROJECT_VERSION-->
+    <version>0.4.6.ICS.8-SNAPSHOT</version><!--PROJECT_VERSION-->
   </parent>
 
   <artifactId>polyglot-translate-plugin</artifactId>
