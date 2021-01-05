@@ -4,10 +4,30 @@ The [git commit history](https://github.com/takari/polyglot-maven/commits/master
 is the detailed source of all changes. The following provides most information
 at an easier glance.
 
+## Version 0.4.6 - 2020-12-16
+
+- Avoid returning null when reading pom from file in some cases
+  - see https://github.com/takari/polyglot-maven/pull/219
+  - fixes https://github.com/takari/polyglot-maven/issues/198
+  - contributed by Christoph Läubrich https://github.com/laeubi
+- Do not Maven deploy goal fails with -f because of missing .polyglot.pom.*
+  - see https://github.com/takari/polyglot-maven/pull/221
+  - fixes https://github.com/takari/polyglot-maven/issues/220
+  - contributed by Robert Thornton https://github.com/thorntonrp
+- Upgrade to Kotlin 1.4.0
+  - see
+    https://github.com/takari/polyglot-maven/commit/d204e38db3995cc7fdc2b2bd2724c6dba6932429
+  - fixes https://github.com/takari/polyglot-maven/issues/214
+  - contributed by Robert Thornton https://github.com/thorntonrp
+- Upgrade to Groovy 2.5.14
+- Upgrade commons-beanutils to 1.9.4
+  - contributed by Manfred Moser - http://www.simpligility.com
+- Release performed by Manfred Moser - http://www.simpligility.com  
+
 ## Version 0.4.5 - 2020-03-03
 
 - Remove upper bound for JDK version to allow Java 11 and newer
- - contributed by Manfred Moser - http://www.simpligility.com
+  - contributed by Manfred Moser - http://www.simpligility.com
 - polyglot-kotlin - revert automatic source folder setting to koltin
   - fixes https://github.com/takari/polyglot-maven/issues/205
   - contributed by Manfred Moser - http://www.simpligility.com
@@ -23,6 +43,7 @@ at an easier glance.
   - contributed by Christoph Läubrich https://github.com/laeubi
 - Upgrade scala-maven-plugin, clojure-maven-plugin and Clojure
   - contributed by Manfred Moser - http://www.simpligility.com
+- Release performed by Manfred Moser - http://www.simpligility.com
 
 ## Version 0.4.4 - 2019-11-24
 
